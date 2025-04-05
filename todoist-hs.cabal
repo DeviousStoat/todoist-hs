@@ -18,18 +18,28 @@ build-type:     Simple
 library
   exposed-modules:
       Todoist.Api
-      Todoist.Data
+      Todoist.Data.Comments
+      Todoist.Data.Common
+      Todoist.Data.Labels
+      Todoist.Data.Projects
+      Todoist.Data.Sections
+      Todoist.Data.Tasks
   other-modules:
       Paths_todoist_hs
   autogen-modules:
       Paths_todoist_hs
   hs-source-dirs:
       lib
+  default-extensions:
+      OverloadedStrings
+      DataKinds
   ghc-options: -Wall
   build-depends:
-      base ==4.*
+      aeson
+    , base ==4.*
     , servant
     , servant-client
+    , text
   default-language: GHC2021
 
 executable todoist-hs
@@ -40,6 +50,9 @@ executable todoist-hs
       Paths_todoist_hs
   hs-source-dirs:
       app
+  default-extensions:
+      OverloadedStrings
+      DataKinds
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base ==4.*
@@ -56,6 +69,9 @@ test-suite todoist-hs-test
       Paths_todoist_hs
   hs-source-dirs:
       test
+  default-extensions:
+      OverloadedStrings
+      DataKinds
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base ==4.*
