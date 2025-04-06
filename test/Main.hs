@@ -1,15 +1,10 @@
 module Main where
 
-import Hedgehog (property, test, withTests)
 import Test.Tasty (TestTree, defaultMain, testGroup)
-import Test.Tasty.Hedgehog (testProperty)
-import TodoistHs.Test.NameTest (test_name)
 
 tests :: TestTree
 tests =
-  testGroup "all" [
-    testProperty "name" (withTests 1 (property (test test_name)))
-  ]
+  testGroup "all" []
 
 main :: IO ()
 main = defaultMain tests

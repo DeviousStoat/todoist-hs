@@ -14,8 +14,11 @@
         author = "DeviousStoat";
         ghc-options = [ "-Wall" ];
         default-extensions = [
-          "OverloadedStrings"
           "DataKinds"
+          "DerivingStrategies"
+          "DuplicateRecordFields"
+          "OverloadedRecordDot"
+          "OverloadedStrings"
         ];
       };
 

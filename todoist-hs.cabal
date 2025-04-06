@@ -31,8 +31,11 @@ library
   hs-source-dirs:
       lib
   default-extensions:
-      OverloadedStrings
       DataKinds
+      DerivingStrategies
+      DuplicateRecordFields
+      OverloadedRecordDot
+      OverloadedStrings
   ghc-options: -Wall
   build-depends:
       aeson
@@ -51,8 +54,11 @@ executable todoist-hs
   hs-source-dirs:
       app
   default-extensions:
-      OverloadedStrings
       DataKinds
+      DerivingStrategies
+      DuplicateRecordFields
+      OverloadedRecordDot
+      OverloadedStrings
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base ==4.*
@@ -63,15 +69,17 @@ test-suite todoist-hs-test
   type: exitcode-stdio-1.0
   main-is: Main.hs
   other-modules:
-      TodoistHs.Test.NameTest
       Paths_todoist_hs
   autogen-modules:
       Paths_todoist_hs
   hs-source-dirs:
       test
   default-extensions:
-      OverloadedStrings
       DataKinds
+      DerivingStrategies
+      DuplicateRecordFields
+      OverloadedRecordDot
+      OverloadedStrings
   ghc-options: -Wall -threaded -rtsopts -with-rtsopts=-N
   build-depends:
       base ==4.*

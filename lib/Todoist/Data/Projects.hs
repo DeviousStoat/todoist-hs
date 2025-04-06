@@ -1,45 +1,71 @@
 module Todoist.Data.Projects where
 
+import Data.Aeson (FromJSON (parseJSON), ToJSON (toJSON))
 import Data.Text (Text)
+import GHC.Generics (Generic)
 
-import Todoist.Data.Common (Color, ViewStyle)
+import Todoist.Data.Common (Color, ViewStyle, todoistParseJSON, todoistToJSON)
 
 data Project = Project
-  { projectId :: Text
-  , projectName :: Text
-  , projectColor :: Color
-  , projectParentId :: Maybe Text
-  , projectOrder :: Int
-  , projectCommentCount :: Int
-  , projectIsShared :: Bool
-  , projectIsFavorite :: Bool
-  , projectIsInboxProject :: Bool
-  , projectIsTeamInbox :: Bool
-  , projectViewStyle :: ViewStyle
-  , projectUrl :: Text
+  { id :: Text
+  , name :: Text
+  , color :: Color
+  , parentId :: Maybe Text
+  , order :: Int
+  , commentCount :: Int
+  , isShared :: Bool
+  , isFavorite :: Bool
+  , isInboxProject :: Bool
+  , isTeamInbox :: Bool
+  , viewStyle :: ViewStyle
+  , url :: Text
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic)
+
+instance FromJSON Project where
+  parseJSON = todoistParseJSON
+
+instance ToJSON Project where
+  toJSON = todoistToJSON
 
 data ProjectPostCreate = ProjectPostCreate
-  { projectPostCreateName :: Text
-  , projectPostCreateParentId :: Maybe Text
-  , projectPostCreateColor :: Maybe Color
-  , projectPostCreateIsFavorite :: Maybe Bool
-  , projectPostCreateViewStyle :: Maybe ViewStyle
+  { name :: Text
+  , parentId :: Maybe Text
+  , color :: Maybe Color
+  , isFavorite :: Maybe Bool
+  , viewStyle :: Maybe ViewStyle
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic)
+
+instance FromJSON ProjectPostCreate where
+  parseJSON = todoistParseJSON
+
+instance ToJSON ProjectPostCreate where
+  toJSON = todoistToJSON
 
 data ProjectPostUpdate = ProjectPostUpdate
-  { projectPostUpdateName :: Maybe Text
-  , projectPostUpdateColor :: Maybe Color
-  , projectPostUpdateIsFavorite :: Maybe Bool
-  , projectPostUpdateViewStyle :: Maybe ViewStyle
+  { name :: Maybe Text
+  , color :: Maybe Color
+  , isFavorite :: Maybe Bool
+  , viewStyle :: Maybe ViewStyle
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic)
+
+instance FromJSON ProjectPostUpdate where
+  parseJSON = todoistParseJSON
+
+instance ToJSON ProjectPostUpdate where
+  toJSON = todoistToJSON
 
 data Collaborator = Collaborator
-  { collaboratorId :: Text
-  , collaboratorName :: Text
-  , collaboratorEmail :: Text
+  { id :: Text
+  , name :: Text
+  , email :: Text
   }
-  deriving (Show, Eq)
+  deriving (Show, Eq, Generic)
+
+instance FromJSON Collaborator where
+  parseJSON = todoistParseJSON
+
+instance ToJSON Collaborator where
+  toJSON = todoistToJSON
