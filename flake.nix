@@ -30,9 +30,12 @@
           enable = true;
           dependencies = [
             "aeson"
+            "http-client"
+            "http-client-tls"
             "servant"
             "servant-client"
             "text"
+            "transformers"
           ];
         };
 

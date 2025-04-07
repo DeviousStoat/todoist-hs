@@ -8,17 +8,17 @@ import Todoist.Data.Common (Color, ViewStyle, todoistParseJSON, todoistToJSON)
 
 data Project = Project
   { id :: Text
-  , name :: Text
-  , color :: Color
   , parentId :: Maybe Text
-  , order :: Int
-  , commentCount :: Int
+  , order :: Maybe Int
+  , color :: Color
+  , name :: Text
   , isShared :: Bool
   , isFavorite :: Bool
   , isInboxProject :: Bool
   , isTeamInbox :: Bool
-  , viewStyle :: ViewStyle
   , url :: Text
+  , viewStyle :: ViewStyle
+  , description :: Text
   }
   deriving (Show, Eq, Generic)
 
@@ -30,6 +30,7 @@ instance ToJSON Project where
 
 data ProjectPostCreate = ProjectPostCreate
   { name :: Text
+  , description :: Maybe Text
   , parentId :: Maybe Text
   , color :: Maybe Color
   , isFavorite :: Maybe Bool
@@ -45,6 +46,7 @@ instance ToJSON ProjectPostCreate where
 
 data ProjectPostUpdate = ProjectPostUpdate
   { name :: Maybe Text
+  , description :: Maybe Text
   , color :: Maybe Color
   , isFavorite :: Maybe Bool
   , viewStyle :: Maybe ViewStyle

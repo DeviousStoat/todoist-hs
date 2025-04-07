@@ -11,20 +11,43 @@ import Data.Aeson (
   Zero,
  )
 import Data.Aeson.Types (
-  Options (fieldLabelModifier),
+  Options (constructorTagModifier, fieldLabelModifier),
   Parser,
   camelTo2,
   defaultOptions,
   genericParseJSON,
   genericToJSON,
  )
+import Data.Text (Text)
 import GHC.Generics (Generic (Rep))
 
 todoistToJSON :: (Generic a, GToJSON' Value Zero (Rep a)) => a -> Value
-todoistToJSON = genericToJSON defaultOptions{fieldLabelModifier = camelTo2 '_'}
+todoistToJSON =
+  genericToJSON
+    defaultOptions
+      { fieldLabelModifier = camelTo2 '_'
+      , constructorTagModifier = camelTo2 '_'
+      }
 
 todoistParseJSON :: (Generic a, GFromJSON Zero (Rep a)) => Value -> Parser a
-todoistParseJSON = genericParseJSON defaultOptions{fieldLabelModifier = camelTo2 '_'}
+todoistParseJSON =
+  genericParseJSON
+    defaultOptions
+      { fieldLabelModifier = camelTo2 '_'
+      , constructorTagModifier = camelTo2 '_'
+      }
+
+data Paginated a = Paginated
+  { results :: a
+  , nextCursor :: Maybe Text
+  }
+  deriving (Show, Eq, Generic)
+
+instance (FromJSON a) => FromJSON (Paginated a) where
+  parseJSON = todoistParseJSON
+
+instance (ToJSON a) => ToJSON (Paginated a) where
+  toJSON = todoistToJSON
 
 data Color
   = BerryRed
