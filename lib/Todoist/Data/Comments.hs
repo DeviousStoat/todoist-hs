@@ -8,11 +8,12 @@ import Todoist.Data.Common (todoistParseJSON, todoistToJSON)
 
 data Comment = Comment
   { id :: Text
-  , taskId :: Maybe Text
-  , projectId :: Maybe Text
+  , postedUid :: Maybe Text
+  , content :: Text
+  , uidsToNotify :: Maybe [Text]
+  , isDeleted :: Maybe Bool
   , -- TODO: date
     postedAt :: Text
-  , content :: Text
   }
   deriving (Show, Eq, Generic)
 
@@ -26,6 +27,7 @@ data CommentPostCreate = CommentPostCreate
   { taskId :: Maybe Text
   , projectId :: Maybe Text
   , content :: Text
+  , uidsToNotify :: Maybe [Text]
   }
   deriving (Show, Eq, Generic)
 

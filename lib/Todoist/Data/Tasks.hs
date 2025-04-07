@@ -111,25 +111,24 @@ instance FromJSON Duration where
 
 data Task = Task
   { id :: Text
+  , assignerId :: Maybe Text
+  , assigneeId :: Maybe Text
   , projectId :: Text
   , sectionId :: Maybe Text
+  , parentId :: Maybe Text
+  , order :: Int
   , content :: Text
   , description :: Text
   , isCompleted :: Bool
   , labels :: [Text]
-  , parentId :: Maybe Text
-  , order :: Int
   , priority :: Priority
-  , due :: Maybe Due
-  , deadline :: Maybe Deadline
-  , url :: Text
-  , commentCount :: Int
+  , creatorId :: Text
   , -- TODO: date
     createdAt :: Text
-  , creatorId :: Text
-  , assigneeId :: Maybe Text
-  , assignerId :: Maybe Text
+  , due :: Maybe Due
+  , url :: Text
   , duration :: Maybe Duration
+  , deadline :: Maybe Deadline
   }
   deriving (Show, Eq, Generic)
 
@@ -148,14 +147,15 @@ data TaskPostCreate = TaskPostCreate
   , order :: Maybe Int
   , labels :: Maybe [Text]
   , priority :: Maybe Priority
+  , assigneeId :: Maybe Text
   , dueString :: Maybe Text
   , -- TODO: date
     dueDate :: Maybe Text
   , -- TODO: date
     dueDatetime :: Maybe Text
   , dueLang :: Maybe Lang
-  , assigneeId :: Maybe Text
-  , duration :: Maybe Duration
+  , -- TODO: custom JSON for duration and deadline, check docs
+    duration :: Maybe Duration
   , deadline :: Maybe Deadline
   }
   deriving (Eq, Show, Generic)
@@ -178,7 +178,8 @@ data TaskPostUpdate = TaskPostUpdate
     dueDatetime :: Maybe Text
   , dueLang :: Maybe Lang
   , assigneeId :: Maybe Text
-  , duration :: Maybe Duration
+  , -- TODO: custom JSON for duration and deadline, check docs
+    duration :: Maybe Duration
   , deadline :: Maybe Deadline
   }
   deriving (Eq, Show, Generic)

@@ -8,9 +8,17 @@ import Todoist.Data.Common (todoistParseJSON, todoistToJSON)
 
 data Section = Section
   { id :: Text
+  , userId :: Text
   , projectId :: Text
-  , order :: Int
+  , -- TODO: date
+    addedAt :: Text
+  , updatedAt :: Maybe Text
+  , archivedAt :: Maybe Text
   , name :: Text
+  , sectionOrder :: Int
+  , collapsed :: Bool
+  , isArchived :: Bool
+  , isDeleted :: Bool
   }
   deriving (Show, Eq, Generic)
 
