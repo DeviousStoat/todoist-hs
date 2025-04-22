@@ -6,57 +6,56 @@ import Control.Monad.Trans.Reader (ask)
 import Data.Proxy (Proxy (Proxy))
 import Data.Text (Text)
 import Servant.API
-import Servant.Client (
-  Client,
-  ClientM,
-  HasClient,
-  client,
-  hoistClient,
-  mkClientEnv,
-  parseBaseUrl,
-  runClientM,
- )
-
-import Todoist.Api (
-  CommentsApi,
-  LabelsApi,
-  ProjectsApi,
-  SectionsApi,
-  TasksApi,
- )
+import Servant.Client
+  ( Client,
+    ClientM,
+    HasClient,
+    client,
+    hoistClient,
+    mkClientEnv,
+    parseBaseUrl,
+    runClientM,
+  )
+import Todoist.Api
+  ( CommentsApi,
+    LabelsApi,
+    ProjectsApi,
+    SectionsApi,
+    TasksApi,
+  )
 import Todoist.Data.App (Env (..), TodoistApp)
 import Todoist.Data.Comments (Comment, CommentPostCreate, CommentPostUpdate)
 import Todoist.Data.Common (Paginated)
-import Todoist.Data.Labels (
-  Label,
-  LabelPostCreate,
-  LabelPostUpdate,
-  LabelSharedRemove,
-  LabelSharedRename,
- )
-import Todoist.Data.Projects (
-  Collaborator,
-  Project,
-  ProjectPostCreate,
-  ProjectPostUpdate,
- )
+import Todoist.Data.Labels
+  ( Label,
+    LabelPostCreate,
+    LabelPostUpdate,
+    LabelSharedRemove,
+    LabelSharedRename,
+  )
+import Todoist.Data.Projects
+  ( Collaborator,
+    Project,
+    ProjectPostCreate,
+    ProjectPostUpdate,
+  )
 import Todoist.Data.Sections (Section, SectionPostCreate, SectionPostUpdate)
-import Todoist.Data.Tasks (
-  Lang,
-  Task,
-  TaskPostCreate,
-  TaskPostUpdate,
- )
+import Todoist.Data.Tasks
+  ( Lang,
+    Task,
+    TaskPostCreate,
+    TaskPostUpdate,
+  )
 
 todoistClient :: (HasClient ClientM api) => Proxy api -> Client TodoistApp api
-todoistClient api = hoistClient api convert (client api)
- where
-  convert :: ClientM a -> TodoistApp a
-  convert clientM = do
-    todoistEnv <- ask
-    baseUrl <- parseBaseUrl todoistEnv.apiBaseUrl
-    let clientEnv = mkClientEnv todoistEnv.httpManager baseUrl
-    fmap (either throw id) . lift $ runClientM clientM clientEnv
+todoistClient api = hoistClient api convertClientM (client api)
+
+convertClientM :: ClientM a -> TodoistApp a
+convertClientM clientM = do
+  todoistEnv <- ask
+  baseUrl <- parseBaseUrl todoistEnv.apiBaseUrl
+  let clientEnv = mkClientEnv todoistEnv.httpManager baseUrl
+  fmap (either throw id) . lift $ runClientM clientM clientEnv
 
 projects :: TodoistApp (Paginated [Project])
 createProject :: ProjectPostCreate -> TodoistApp Project

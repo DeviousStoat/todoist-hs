@@ -2,39 +2,40 @@ module Todoist.Api where
 
 import Data.Text (Text)
 import Servant.API
-
 import Todoist.Data.Comments (Comment, CommentPostCreate, CommentPostUpdate)
 import Todoist.Data.Common (Paginated)
-import Todoist.Data.Labels (
-  Label,
-  LabelPostCreate,
-  LabelPostUpdate,
-  LabelSharedRemove,
-  LabelSharedRename,
- )
-import Todoist.Data.Projects (
-  Collaborator,
-  Project,
-  ProjectPostCreate,
-  ProjectPostUpdate,
- )
+import Todoist.Data.Labels
+  ( Label,
+    LabelPostCreate,
+    LabelPostUpdate,
+    LabelSharedRemove,
+    LabelSharedRename,
+  )
+import Todoist.Data.Projects
+  ( Collaborator,
+    Project,
+    ProjectPostCreate,
+    ProjectPostUpdate,
+  )
 import Todoist.Data.Sections (Section, SectionPostCreate, SectionPostUpdate)
-import Todoist.Data.Tasks (
-  Lang,
-  Task,
-  TaskPostCreate,
-  TaskPostUpdate,
- )
+import Todoist.Data.Tasks
+  ( Lang,
+    Task,
+    TaskPostCreate,
+    TaskPostUpdate,
+  )
 
 type ProjectsApi =
-  "projects" :> Get '[JSON] (Paginated [Project])
-    :<|> "projects" :> ReqBody '[JSON] ProjectPostCreate :> Post '[JSON] Project
-    :<|> "projects" :> Capture "project_id" Text :> Get '[JSON] Project
-    :<|> "projects" :> Capture "project_id" Text :> ReqBody '[JSON] ProjectPostUpdate :> Post '[JSON] Project
-    :<|> "projects" :> Capture "project_id" Text :> "archive" :> Post '[JSON] ()
-    :<|> "projects" :> Capture "project_id" Text :> "unarchive" :> Post '[JSON] ()
-    :<|> "projects" :> Capture "project_id" Text :> Delete '[JSON] ()
-    :<|> "projects" :> Capture "project_id" Text :> "collaborators" :> Get '[JSON] (Paginated [Collaborator])
+  "projects"
+    :> ( Get '[JSON] (Paginated [Project])
+           :<|> ReqBody '[JSON] ProjectPostCreate :> Post '[JSON] Project
+           :<|> Capture "project_id" Text :> Get '[JSON] Project
+           :<|> Capture "project_id" Text :> ReqBody '[JSON] ProjectPostUpdate :> Post '[JSON] Project
+           :<|> Capture "project_id" Text :> "archive" :> Post '[JSON] ()
+           :<|> Capture "project_id" Text :> "unarchive" :> Post '[JSON] ()
+           :<|> Capture "project_id" Text :> Delete '[JSON] ()
+           :<|> Capture "project_id" Text :> "collaborators" :> Get '[JSON] (Paginated [Collaborator])
+       )
 
 type SectionsApi =
   "sections" :> QueryParam "project_id" Text :> Get '[JSON] (Paginated [Section])

@@ -1,7 +1,7 @@
 {
   description = "A Haskell project";
 
-  inputs.hix.url = "github:tek/hix?ref=0.8.0";
+  inputs.hix.url = "github:tek/hix?ref=0.9.1";
 
   outputs =
     { hix, ... }:
@@ -24,7 +24,7 @@
 
       packages.todoist-hs = {
         src = ./.;
-        cabal.meta.synopsis = "A Haskell project";
+        cabal.meta.synopsis = "A Haskell client for the Todoist API";
 
         library = {
           enable = true;
@@ -38,18 +38,6 @@
             "transformers"
           ];
         };
-
-        executable.enable = true;
-
-        test = {
-          enable = true;
-          dependencies = [
-            "hedgehog >= 1.1 && < 1.5"
-            "tasty ^>= 1.4"
-            "tasty-hedgehog >= 1.3 && < 1.5"
-          ];
-        };
-
       };
     };
 }
